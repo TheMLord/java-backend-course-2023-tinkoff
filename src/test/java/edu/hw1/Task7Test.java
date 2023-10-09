@@ -38,11 +38,13 @@ public class Task7Test {
         int n = -16;
         int shift = 3;
 
-        int resultNRight = Task7.rotateRight(n, shift);
-        int resultNLeft = Task7.rotateLeft(n, shift);
+        assertThatThrownBy(() -> Task7.rotateRight(n, shift))
+            .isInstanceOf(RuntimeException.class)
+            .hasMessage("N can't be less than zero");
 
-        assertThat(resultNRight).isEqualTo(-2);
-        assertThat(resultNLeft).isEqualTo(-4);
+        assertThatThrownBy(() -> Task7.rotateLeft(n, shift))
+            .isInstanceOf(RuntimeException.class)
+            .hasMessage("N can't be less than zero");
     }
 
     @Test

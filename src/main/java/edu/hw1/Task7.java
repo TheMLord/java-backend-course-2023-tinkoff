@@ -51,6 +51,9 @@ public final class Task7 {
         if (shift < 0) {
             throw new RuntimeException("Shift can't be less than zero");
         }
+        if (n < 0) {
+            throw new RuntimeException("N can't be less than zero");
+        }
 
         String binaryN = Integer.toBinaryString(Math.abs(n));
         int sizeNBinary = binaryN.length();
@@ -60,9 +63,7 @@ public final class Task7 {
             + binaryN.substring(START_INDEX, sizeNBinary - cyclicShift)
             : binaryN.substring(cyclicShift) + binaryN.substring(START_INDEX, cyclicShift);
 
-        int cyclicBinaryN = Integer.parseInt(shiftedBinaryN, FOUNDATION_BINARY_SYSTEM);
-
-        return (n >= LOWER_BOUND_POSITIVE_NUMBERS) ? cyclicBinaryN : -cyclicBinaryN;
+        return Integer.parseInt(shiftedBinaryN, FOUNDATION_BINARY_SYSTEM);
     }
 
 }
