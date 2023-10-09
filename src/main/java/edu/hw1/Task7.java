@@ -6,7 +6,6 @@ package edu.hw1;
 public final class Task7 {
     private static final int FOUNDATION_BINARY_SYSTEM = 2;
     private static final int START_INDEX = 0;
-    private static final int LOWER_BOUND_POSITIVE_NUMBERS = 0;
 
     /**
      * Class constructor.
@@ -45,7 +44,7 @@ public final class Task7 {
      * @param shift     size of the cyclic shift.
      * @param shiftFlag value of the cyclic shift.
      * @return cyclically shifted number.
-     * @throws RuntimeException if shift less then zero.
+     * @throws RuntimeException if shift less than zero.
      */
     private static int cyclicShift(int n, int shift, boolean shiftFlag) throws RuntimeException {
         if (shift < 0) {
