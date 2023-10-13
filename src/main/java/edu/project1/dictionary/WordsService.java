@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Random;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Server implementation with words for the game.
+ */
 public class WordsService implements Dictionary {
     private final List<String> hangmanWord = new ArrayList<>() {{
         add("orange");

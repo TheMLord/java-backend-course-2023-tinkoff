@@ -3,6 +3,9 @@ package edu.project1.game;
 import edu.project1.game.model.GuessResult;
 import java.util.Scanner;
 
+/**
+ * Game process control class.
+ */
 public final class ConsoleHangman {
     private static final String GUESS_A_LETTER = "Guess a letter:";
     private static final String RIGHT_WORD = "right word: ";
@@ -12,10 +15,18 @@ public final class ConsoleHangman {
 
     private final Session gameSession;
 
+    /**
+     * Class constructor.
+     *
+     * @param gameSession object Session.
+     */
     public ConsoleHangman(Session gameSession) {
         this.gameSession = gameSession;
     }
 
+    /**
+     * Method that starts the gameplay
+     */
     public void run() {
         if (gameSession.getAnswer().isEmpty()) {
             System.out.println(DICTIONARY_SERVICE_ERROR);
@@ -47,10 +58,22 @@ public final class ConsoleHangman {
         }
     }
 
+    /**
+     * Method that delegates processing of an incoming character to the Session class.
+     *
+     * @param session Session object.
+     * @param guess   character entered by the user.
+     * @return model GuessResult.
+     */
     private GuessResult tryGuess(Session session, char guess) {
         return session.guess(guess);
     }
 
+    /**
+     * Method that prints the game message.
+     *
+     * @param guess model GuessResult.
+     */
     private void printState(GuessResult guess) {
         System.out.println(guess.message());
         System.out.println(guess.currentWord());

@@ -18,6 +18,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * Class of integration tests with word choice simulation.
+ */
 public class ConsoleHangmanTest {
     private final Dictionary dictionaryWords = mock(WordsService.class);
 
@@ -202,6 +205,14 @@ public class ConsoleHangmanTest {
         assertThat(gameAnswer).isEqualTo(correctAnswerProgram);
     }
 
+    /**
+     * The method gets the output result of the program during the game.
+     * Input words are transmitted to the standard input stream as bytes and intercepted from the standard output stream.
+     *
+     * @param inputWordsList list of words entered into the game.
+     * @param consoleHangman an object of the main class with game logic that runs the run() method.
+     * @return list of words that the program will output
+     */
     @NotNull private static List<String> getResultProgram(List<String> inputWordsList, ConsoleHangman consoleHangman) {
         String inputWordsString = String.join(System.lineSeparator(), inputWordsList);
         ByteArrayInputStream byteInput = new ByteArrayInputStream(inputWordsString.getBytes());
