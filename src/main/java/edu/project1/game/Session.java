@@ -32,7 +32,7 @@ public final class Session {
     }
 
     /**
-     *
+     * Method that returns a model of the result depending on the entered word
      */
     @NotNull GuessResult guess(char guess) {
         if (isGuessWas(guess)) {
