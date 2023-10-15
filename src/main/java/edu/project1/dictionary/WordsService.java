@@ -21,6 +21,6 @@ public class WordsService implements Dictionary {
         Random random = new Random();
         int randomIndex = random.nextInt(hangmanWord.size());
 
-        return hangmanWord.get(randomIndex);
+        return hangmanWord.get(randomIndex).trim().toLowerCase();
     }
 }
