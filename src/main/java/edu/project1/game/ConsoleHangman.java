@@ -1,7 +1,10 @@
 package edu.project1.game;
 
 import edu.project1.game.model.GuessResult;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 /**
  * Game process control class.
@@ -12,6 +15,8 @@ public final class ConsoleHangman {
     private static final String EXIT_MESSAGE = "exit";
     private static final String WRONG_INPUT = "incorrect input";
     private static final String DICTIONARY_SERVICE_ERROR = "Failed start game. Dictionary service is broken";
+    private static final Logger LOGGER = Logger.getLogger(ConsoleHangman.class.getName());
+    private final List<String> gameAnswer = new ArrayList<>();
 
     private final Session gameSession;
 
@@ -29,22 +34,28 @@ public final class ConsoleHangman {
      */
     public void run() {
         if (gameSession.getAnswer().isEmpty()) {
-            System.out.println(DICTIONARY_SERVICE_ERROR);
+            gameAnswer.add(DICTIONARY_SERVICE_ERROR);
+            LOGGER.info(DICTIONARY_SERVICE_ERROR);
         } else {
             Scanner inputScanner = new Scanner(System.in);
             while (true) {
-                System.out.println(GUESS_A_LETTER);
+                gameAnswer.add(GUESS_A_LETTER);
+                LOGGER.info(GUESS_A_LETTER);
                 String input = inputScanner.nextLine().toLowerCase();
 
                 if (input.equals(EXIT_MESSAGE)) {
                     GuessResult guessResult = this.gameSession.giveUp();
-                    System.out.println(guessResult.message());
-                    System.out.println(RIGHT_WORD + guessResult.currentWord());
+
+                    gameAnswer.add(guessResult.message());
+                    gameAnswer.add(RIGHT_WORD + guessResult.currentWord());
+                    LOGGER.info(guessResult.message());
+                    LOGGER.info(RIGHT_WORD + guessResult.currentWord());
                     break;
                 }
 
                 if (input.length() != 1) {
-                    System.out.println(WRONG_INPUT);
+                    gameAnswer.add(WRONG_INPUT);
+                    LOGGER.info(WRONG_INPUT);
                     continue;
                 }
 
@@ -75,7 +86,18 @@ public final class ConsoleHangman {
      * @param guess model GuessResult.
      */
     private void printState(GuessResult guess) {
-        System.out.println(guess.message());
-        System.out.println(guess.currentWord());
+        gameAnswer.add(guess.message());
+        gameAnswer.add(guess.currentWord());
+        LOGGER.info(guess.message());
+        LOGGER.info(guess.currentWord());
+    }
+
+    /**
+     * Method that returns a list with the current system responses of the game.
+     *
+     * @return arrayList with current system responses of the game.
+     */
+    public List<String> getGameAnswer() {
+        return this.gameAnswer;
     }
 }

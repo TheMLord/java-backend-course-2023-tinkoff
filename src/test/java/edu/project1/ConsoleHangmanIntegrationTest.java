@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 /**
  * Class of integration tests with word choice simulation.
  */
-public class ConsoleHangmanTest {
+public class ConsoleHangmanIntegrationTest {
     private final Dictionary dictionaryWords = mock(WordsService.class);
 
     @Test
@@ -207,7 +207,7 @@ public class ConsoleHangmanTest {
 
     /**
      * The method gets the output result of the program during the game.
-     * Input words are transmitted to the standard input stream as bytes and intercepted from the standard output stream.
+     * Input words are transmitted to the standard input stream as bytes.
      *
      * @param inputWordsList list of words entered into the game.
      * @param consoleHangman an object of the main class with game logic that runs the run() method.
@@ -218,25 +218,17 @@ public class ConsoleHangmanTest {
         ByteArrayInputStream byteInput = new ByteArrayInputStream(inputWordsString.getBytes());
         System.setIn(byteInput);
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(outputStream);
-        System.setOut(printStream);
-
         consoleHangman.run();
-
-        List<String> gameOutput = new ArrayList<>(Arrays.asList(outputStream.toString().split(System.lineSeparator())));
 
         try {
             byteInput.close();
-            printStream.close();
-            outputStream.close();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         System.setIn(System.in);
-        System.setOut(System.out);
 
-        return gameOutput;
+        return consoleHangman.getGameAnswer();
     }
 
 }
