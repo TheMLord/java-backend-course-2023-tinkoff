@@ -19,8 +19,8 @@ public class Contact {
      * Constructor incomplete contact.
      */
     public Contact(String name) {
-        this.name = name;
         this.surname = null;
+        this.name = name;
     }
 
     public String getSurname() {
