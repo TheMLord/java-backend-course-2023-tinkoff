@@ -5,11 +5,10 @@ import edu.hw3.task6.Task6;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.util.List;
-import com.google.common.collect.ImmutableList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class Task6Test {
-    private final List<Stock> stockExampleList = ImmutableList.of(
+    private final List<Stock> stockExampleList = List.of(
         new Stock("TCSG", 3483),
         new Stock("AFLT", 40),
         new Stock("GAZP", 179),
@@ -20,7 +19,7 @@ class Task6Test {
     private final int expensiveStockCost = 7444;
     private final String expensiveStockName = "LKOH";
     private final Stock gazpStock = new Stock("GAZP", 179);
-    private final List<Stock> stockExampleListWithoutGAZP = ImmutableList.of(
+    private final List<Stock> stockExampleListWithoutGAZP = List.of(
         new Stock("TCSG", 3483),
         new Stock("AFLT", 40),
         new Stock("LKOH", 7444),
