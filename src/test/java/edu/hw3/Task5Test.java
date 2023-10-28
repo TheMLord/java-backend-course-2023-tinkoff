@@ -44,6 +44,11 @@ class Task5Test {
                 SortOrder.DESC,
                 new String[] {"Michael Wilson", "George White", "John Smith", "Sophia Martinez",
                     "Emily Johnson", "Olivia Davis", "David Brown", "William Anderson"}
+            ),
+            Arguments.of(
+                new String[] {"Ab Johnson", "Ab Johnson", "Carl"},
+                SortOrder.ASC,
+                new String[] {"Carl", "Ab Johnson", "Ab Johnson"}
             )
         );
     }
