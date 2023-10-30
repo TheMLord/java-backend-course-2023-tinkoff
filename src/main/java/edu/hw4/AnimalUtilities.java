@@ -193,6 +193,7 @@ public final class AnimalUtilities {
                 Map.Entry::getKey,
                 animalErrorLog -> animalErrorLog.getValue().stream()
                     .map(ValidationError::getInvalidField)
+                    .sorted()
                     .collect(Collectors.joining(", "))
             ));
     }

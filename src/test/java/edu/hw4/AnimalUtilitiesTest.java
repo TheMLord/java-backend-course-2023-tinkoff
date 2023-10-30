@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import static java.util.Map.entry;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AnimalUtilitiesTest {
@@ -371,7 +372,9 @@ class AnimalUtilitiesTest {
         var prettyPrintedErrors = AnimalUtilities.getAnimalsWithErrorsInFieldPrettyPrint(animalsListWithInvalidField);
 
         assertThat(prettyPrintedErrors)
-            .containsEntry("Bim", "height, weight, age")
-            .containsEntry("Gojo", "weight");
+            .containsOnly(
+                entry("Bim", "age, height, weight"),
+                entry("Gojo", "weight")
+            );
     }
 }

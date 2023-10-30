@@ -2,11 +2,9 @@ package edu.hw4;
 
 public class ValidationError extends RuntimeException {
     private final String invalidField;
-    private final ErrorType errorType;
 
     public ValidationError(ErrorType typeError, InvalidField field) {
         super(typeError.errorDescription);
-        this.errorType = typeError;
         this.invalidField = field.nameField;
     }
 
