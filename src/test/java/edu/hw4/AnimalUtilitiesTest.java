@@ -1,12 +1,11 @@
 package edu.hw4;
 
-import org.assertj.core.api.MapAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import static java.util.Map.entry;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -52,7 +51,7 @@ class AnimalUtilitiesTest {
     @DisplayName(
         "Test that the list of animals is sorted ascending by height and returned the list in the correct order")
     void testThatTheListOfAnimalsIsSortedAscendingByWeightAndReturnedTheListInTheCorrectOrder() {
-        var correctSortedListAnimal = List.of(
+        var expectedSortedListAnimal = List.of(
             eugenia,
             mortimer,
             oswald,
@@ -68,7 +67,7 @@ class AnimalUtilitiesTest {
 
         var sortedListAnimal = AnimalUtilities.sortASCAnimalByHeight(animalsList);
 
-        assertThat(sortedListAnimal).isEqualTo(correctSortedListAnimal);
+        assertThat(sortedListAnimal).isEqualTo(expectedSortedListAnimal);
     }
 
     @Test
@@ -76,7 +75,7 @@ class AnimalUtilitiesTest {
         "Test that the list of animals is sorted descending order by weight and returned the list of k elements in the correct order")
     void testThatTheListOfAnimalsIsSortedDescendingOrderByWeightAndReturnedTheListOfKElementsInTheCorrectOrder() {
         int k = 5;
-        var correctSortedListAnimal = List.of(
+        var expectedSortedListAnimal = List.of(
             reginald,
             gertrude,
             edvard,
@@ -87,13 +86,13 @@ class AnimalUtilitiesTest {
         var sortedListAnimal = AnimalUtilities.sortDESCAnimalByWeight(animalsList, k);
 
         assertThat(sortedListAnimal.size()).isEqualTo(k);
-        assertThat(sortedListAnimal).isEqualTo(correctSortedListAnimal);
+        assertThat(sortedListAnimal).isEqualTo(expectedSortedListAnimal);
     }
 
     @Test
     @DisplayName("Test that animals of each type are counted correctly and returned map with types and quantity")
     void testThatAnimalsOfEachTypeAreCountedCorrectlyAndReturnedMapWithTypesAndQuantity() {
-        var correctMap = Map.of(
+        var expectedMap = Map.of(
             Animal.Type.CAT, 2,
             Animal.Type.DOG, 3,
             Animal.Type.BIRD, 2,
@@ -103,34 +102,34 @@ class AnimalUtilitiesTest {
 
         var typeCountMap = AnimalUtilities.getMapAnimalTypes(animalsList);
 
-        assertThat(typeCountMap).isEqualTo(correctMap);
+        assertThat(typeCountMap).isEqualTo(expectedMap);
     }
 
     @Test
     @DisplayName(
         "Test that in among the animals there is an animal with the maximum name in length and this object is returned from the list")
     void testThatInAmongTheAnimalsThereIsAnAnimalWithTheMaximumNameInLengthAndThisObjectIsReturnedFromTheList() {
-        var correctAnimalWithMaxLengthName = edvard;
+        var expectedAnimalWithMaxLengthName = edvard;
 
         var maxLengthNameAnimal = AnimalUtilities.getAnimalWithLongestName(animalsList);
 
-        assertThat(maxLengthNameAnimal).isEqualTo(correctAnimalWithMaxLengthName);
+        assertThat(maxLengthNameAnimal).isEqualTo(expectedAnimalWithMaxLengthName);
     }
 
     @Test
     @DisplayName("Test that is the most common sex among animals and returned correctly this type")
     void testThatIsTheMostCommonSexAmongAnimalsAndReturnedCorrectlyThisType() {
-        var correctMostCommonSex = Animal.Sex.M;
+        var expectedMostCommonSex = Animal.Sex.M;
 
         var mostCommonSex = AnimalUtilities.getMostCommonSex(animalsList);
 
-        assertThat(mostCommonSex).isEqualTo(correctMostCommonSex);
+        assertThat(mostCommonSex).isEqualTo(expectedMostCommonSex);
     }
 
     @Test
     @DisplayName("Test that Maps with heavy animals of each species are formed and returned the correct Map")
     void testThatMapsWithHeavyAnimalsOfEachSpeciesAreFormedAndReturnedTheCorrectMap() {
-        var correctMap = Map.of(
+        var expectedMap = Map.of(
             Animal.Type.CAT, prudence,
             Animal.Type.DOG, reginald,
             Animal.Type.BIRD, cornelia,
@@ -140,17 +139,18 @@ class AnimalUtilitiesTest {
 
         var heavyAnimals = AnimalUtilities.getMapWithMostHeaviestAnimalEachType(animalsList);
 
-        assertThat(heavyAnimals).isEqualTo(correctMap);
+        assertThat(heavyAnimals).isEqualTo(expectedMap);
     }
 
     @Test
-    @DisplayName("Test that what is found and returned oldest animal")
-    void testThatWhatIsFoundAndReturnedOldestAnimal() {
-        var correctOldestAnimal = edvard;
+    @DisplayName("Test that what is found and returned oldest k animal")
+    void testThatWhatIsFoundAndReturnedKOldestAnimal() {
+        var expectedOldestAnimal = algernon;
 
-        var oldestAnimal = AnimalUtilities.getOldestAnimal(animalsList);
+        int kIndex = 5;
+        var oldestAnimal = AnimalUtilities.getKOldestAnimal(animalsList, kIndex);
 
-        assertThat(oldestAnimal).isEqualTo(correctOldestAnimal);
+        assertThat(oldestAnimal).isEqualTo(expectedOldestAnimal);
     }
 
     @Test
@@ -159,12 +159,12 @@ class AnimalUtilitiesTest {
         var k1 = 100;
         var k2 = 1;
 
-        Animal correctAnimalTest1 = reginald;
+        Animal expectedAnimalTest1 = reginald;
 
         var animal1 = AnimalUtilities.getHeaviestAnimalBelowKParameter(animalsList, k1);
         var animal2 = AnimalUtilities.getHeaviestAnimalBelowKParameter(animalsList, k2);
 
-        assertThat(animal1.get()).isEqualTo(correctAnimalTest1);
+        assertThat(animal1.get()).isEqualTo(expectedAnimalTest1);
         assertThat(animal2).isEmpty();
     }
 
@@ -172,18 +172,18 @@ class AnimalUtilitiesTest {
     @DisplayName(
         "Test that is correctly considered the number of paws of all animals in the list returned an integer the number of paws")
     void testThatIsCorrectlyConsideredTheNumberOfPawsOfAllAnimalsInTheListReturnedAnIntegerTheNumberOfPaws() {
-        Integer correctCountPaws = 40;
+        Integer expectedCountPaws = 40;
 
         var countAnimalPawsInList = AnimalUtilities.getAmountAnimalPaws(animalsList);
 
-        assertThat(countAnimalPawsInList).isEqualTo(correctCountPaws);
+        assertThat(countAnimalPawsInList).isEqualTo(expectedCountPaws);
     }
 
     @Test
     @DisplayName(
         "Test that there are animals with an age that does not match the number of llamas and returned the list of these animals correctly")
     void testThatThereAreAnimalsWithAnAgeThatDoesNotMatchTheNumberOfLlamasAndReturnedTheListOfTheseAnimalsCorrectly() {
-        var correctListAnimals = List.of(
+        var expectedListAnimals = List.of(
             edvard,
             thaddeus,
             mortimer,
@@ -196,7 +196,7 @@ class AnimalUtilitiesTest {
 
         var resultListAnimals = AnimalUtilities.getAnimalsWhoseAgeNotEqualNumberPaws(animalsList);
 
-        assertThat(resultListAnimals).containsAll(correctListAnimals);
+        assertThat(resultListAnimals).containsAll(expectedListAnimals);
         assertThat(resultListAnimals).doesNotContain(algernon, eugenia);
     }
 
@@ -204,37 +204,37 @@ class AnimalUtilitiesTest {
     @DisplayName(
         "Test that what are the animals from the list of animals that can bite and their height is more than 100 cm returned the list of such animals")
     void testThatWhatAreTheAnimalsFromTheListOfAnimalsThatCanBiteAndTheirHeightIsMoreThan100CmReturnedTheListOfSuchAnimals() {
-        var correctListBitingAnimals = List.of(
+        var expectedListBitingAnimals = List.of(
             algernon
         );
 
         var listBitingAnimals = AnimalUtilities.getBitingAnimals(animalsList);
 
-        assertThat(listBitingAnimals).containsAll(correctListBitingAnimals);
+        assertThat(listBitingAnimals).containsAll(expectedListBitingAnimals);
     }
 
     @Test
     @DisplayName(
         "Test that are the animals from the count of animals whose weight exceeds height returned this count is correctly")
     void testThatAreTheAnimalsFromTheListOfAnimalsWhoseWeightExceedsHeightReturnedThisListIsCorrectly() {
-        var correctAnimalsCount = 2;
+        var expectedAnimalsCount = 2;
 
         var resultAnimalsCount = AnimalUtilities.getAnimalWhoseWeightMoreHeight(animalsList);
 
-        assertThat(resultAnimalsCount).isEqualTo(correctAnimalsCount);
+        assertThat(resultAnimalsCount).isEqualTo(expectedAnimalsCount);
     }
 
     @Test
     @DisplayName(
         "Test that there are animals with names consisting of more than two words the list of such animals is returned correctly")
     void testThatThereAreAnimalsWithNamesConsistingOfMoreThanTwoWordsTheListOfSuchAnimalsIsReturnedCorrectly() {
-        var correctList = List.of(
+        var expectedList = List.of(
             edvard
         );
 
         var resultListAnimal = AnimalUtilities.getAnimalsWithNameConsistMoreThanTwoWords(animalsList);
 
-        assertThat(resultListAnimal).containsAll(correctList);
+        assertThat(resultListAnimal).containsAll(expectedList);
     }
 
     @Test
@@ -253,27 +253,34 @@ class AnimalUtilitiesTest {
 
     @Test
     @DisplayName(
-        "Test that correctly searches for the sum of the weight of animals whose age ranges from k to l returned this sum correctly")
-    void testThatCorrectlySearchesForTheSumOfTheWeightOfAnimalsWhoseAgeRangesFromKToLReturnedThisSumCorrectly() {
-        Integer correctSum1 = 84;
-        Integer correctSum2 = 0;
+        "Test that correctly searches for the sum of the weight of each type  animals whose age ranges from k to l returned map with type and this sum")
+    void testThatCorrectlySearchesForTheSumOfTheWeightOfEachTypeAnimalsWhoseAgeRangesFromKToLReturnedMapWithTypeAndThisSum() {
+        Map<Animal.Type, Integer> expectedQuery1 = new HashMap<>() {{
+            put(Animal.Type.BIRD, 5);
+            put(Animal.Type.CAT, 20);
+            put(Animal.Type.FISH, 7);
+            put(Animal.Type.SPIDER, 2);
+            put(Animal.Type.DOG, 50);
+        }};
+        Map<Animal.Type, Integer> expectedQuery2 = new HashMap<>() {};
         int k1 = 1;
         int l1 = 10;
-
         int k2 = 50;
         int l2 = 800;
 
-        Integer animalsWeightSumQuery1 = AnimalUtilities.findTotalWeightAnimalsAgedFromKtoL(animalsList, k1, l1);
-        Integer animalsWeightSumQuery2 = AnimalUtilities.findTotalWeightAnimalsAgedFromKtoL(animalsList, k2, l2);
+        var animalsEachTypeWeightSumQuery1 =
+            AnimalUtilities.findTotalWeightEachTypeAnimalsAgedFromKtoL(animalsList, k1, l1);
+        var animalsEachTypeWeightSumQuery2 =
+            AnimalUtilities.findTotalWeightEachTypeAnimalsAgedFromKtoL(animalsList, k2, l2);
 
-        assertThat(animalsWeightSumQuery1).isEqualTo(correctSum1);
-        assertThat(animalsWeightSumQuery2).isEqualTo(correctSum2);
+        assertThat(animalsEachTypeWeightSumQuery1).isEqualTo(expectedQuery1);
+        assertThat(animalsEachTypeWeightSumQuery2).isEqualTo(expectedQuery2);
     }
 
     @Test
     @DisplayName("Test triple sorting")
     void testTripleSorting() {
-        var correctSort = List.of(
+        var expectedSort = List.of(
             algernon,
             prudence,
             edvard,
@@ -289,7 +296,7 @@ class AnimalUtilitiesTest {
 
         var tripleSorting = AnimalUtilities.sortAnimalsByTypeAndThenSexAndThenName(animalsList);
 
-        assertThat(tripleSorting).isEqualTo(correctSort);
+        assertThat(tripleSorting).isEqualTo(expectedSort);
     }
 
     @Test
@@ -319,11 +326,11 @@ class AnimalUtilitiesTest {
                 testFish2
             )
         );
-        var correctFish = testFish2;
+        var expectedFish = testFish2;
 
         var heaviestFish = AnimalUtilities.getHeaviestFish(listsAnimals);
 
-        assertThat(heaviestFish).isEqualTo(correctFish);
+        assertThat(heaviestFish).isEqualTo(expectedFish);
     }
 
     @Test
@@ -371,7 +378,7 @@ class AnimalUtilitiesTest {
 
         var prettyPrintedErrors = AnimalUtilities.getAnimalsWithErrorsInFieldPrettyPrint(animalsListWithInvalidField);
 
-        assertThat(prettyPrintedErrors)
+        assertThat(prettyPrintedErrors.entrySet())
             .containsOnly(
                 entry("Bim", "age, height, weight"),
                 entry("Gojo", "weight")
