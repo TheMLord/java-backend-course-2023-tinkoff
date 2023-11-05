@@ -102,7 +102,7 @@ public class MazeSolutionPanel extends MazeOriginalPanel {
     /**
      * Метод возвращает отладочную информацию, чтобы понять, отрисовывается ли путь
      */
-    public int getDebuggingDataLengthPath(){
+    public int getDebuggingDataLengthPath() {
         return this.lengthPaintPath;
     }
 
