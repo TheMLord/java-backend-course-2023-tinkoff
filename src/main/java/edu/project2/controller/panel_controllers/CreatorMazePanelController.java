@@ -1,49 +1,56 @@
 package edu.project2.controller.panel_controllers;
 
+import java.awt.GridLayout;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
-import java.awt.GridLayout;
 
+/**
+ * Контроллер панели создания лабиринта.
+ */
 public final class CreatorMazePanelController extends AbstractPanelController {
+    private static final int ROW_PANEL = 3;
+    private static final int COL_PANEL = 3;
     private final JComboBox generatingComboBox;
-    private final JTextField heightField;
-    private final JTextField weightField;
+    private final JTextField sizeMazeField;
 
     public CreatorMazePanelController() {
-        int row = 3;
-        int col = 3;
-
-        setLayout(new GridLayout(row, col));
+        setLayout(new GridLayout(ROW_PANEL, COL_PANEL));
 
         this.generatingComboBox = prepareComboBox(
             new String[] {
-                "Алгоритм Прима",
-                "Алгоритм Эллера"
+                TypeGenerateAlgorithm.ELLER_ALGORITHM.getAlgorithm(),
             }
         );
 
-        this.heightField = prepareTextField();
-        this.weightField = prepareTextField();
+        this.sizeMazeField = prepareTextField();
 
         add(prepareLabel(CHOOSE_MAZE_SOLUTION_ALGORITHM_LABEL_NAME));
         add(generatingComboBox);
 
-        add(prepareLabel(INPUT_NUMBER_LABEL_HEIGHT_NAME));
-        add(heightField);
+        add(prepareLabel(INPUT_SIZE_LABEL_HEIGHT_NAME));
+        add(sizeMazeField);
 
-        add(prepareLabel(INPUT_NUMBER_LABEL_WEIGHT_NAME));
-        add(weightField);
     }
 
     public String getGeneratingComboBoxSelectedItem() {
         return (String) generatingComboBox.getSelectedItem();
     }
 
-    public Integer getHeightFieldInputNumber() {
-        return Integer.parseInt(heightField.getText());
+    public Integer getSizeMaze() {
+        return Integer.parseInt(sizeMazeField.getText());
     }
 
-    public Integer getWeightFieldInputNumber() {
-        return Integer.parseInt(weightField.getText());
+    public enum TypeGenerateAlgorithm {
+        ELLER_ALGORITHM("Алгоритм Эллера");
+
+        private final String algorithm;
+
+        TypeGenerateAlgorithm(String algorithm) {
+            this.algorithm = algorithm;
+        }
+
+        public String getAlgorithm() {
+            return algorithm;
+        }
     }
 }

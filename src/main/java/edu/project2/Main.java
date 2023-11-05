@@ -1,12 +1,14 @@
 package edu.project2;
 
-import java.awt.Frame;
 import edu.project2.view.frames.MainApplicationMazeFrame;
+import java.awt.Frame;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 public final class Main {
     private static final String LOOK_AND_FEEL_STYLE_ONE = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     private Main() {
     }
@@ -15,7 +17,7 @@ public final class Main {
         try {
             UIManager.setLookAndFeel(LOOK_AND_FEEL_STYLE_ONE);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.info(e.getMessage());
         }
         SwingUtilities.invokeLater(() -> {
             var frame = new MainApplicationMazeFrame();
