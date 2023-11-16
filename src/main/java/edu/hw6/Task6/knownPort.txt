@@ -1,0 +1,35 @@
+1:tcp,TCP Port Service Multiplexer
+2:tcp,Management Utility
+3:tcp,Compression Process
+5:tcp,Remote Job Entry
+6:udp,Unassigned
+7:udp,Echo
+8:udp,Unassigned
+9:tcp,Discard
+10:tcp,Unassigned
+11:tcp,Active Users
+12:tcp,Unassigned
+13:udp,Daytime
+17:tcp,Quote of the Day
+18:tcp,Message Send Protocol
+19:tcp,Character Generator
+20:tcp,File
+21:tcp, File Transfer Protocol
+22:tcp,The Secure Shell (SSH) Protocol
+23:tcp,Telnet
+24:tcp,any private mail system
+25:tcp,Simple Mail Transfer
+27:tcp,NSW User System FE
+29:tcp,MSG ICP
+31:tcp,MSG Authentication
+33:tcp,Display Support Protocol
+35:udp,any private printer server
+37:tcp,Time
+38:tcp,Route Access Protocol
+39:tcp,Resource Location Protocol
+41:tcp,Graphics
+42:tcp,Host Name Server
+43:tcp,Who Is
+44:tcp,MPM FLAGS Protocol
+45:udp,Message Processing Module
+46:tcp,MPM

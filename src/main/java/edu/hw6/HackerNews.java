@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 import static java.net.http.HttpClient.newHttpClient;
 
 /**
- * Class for working with the HackerNews website API
+ * Class for working with the HackerNews website API. Task5.
  */
 public final class HackerNews {
     private static final Logger HACKER_NEWS_LOGGER = Logger.getLogger(HackerNews.class.getName());

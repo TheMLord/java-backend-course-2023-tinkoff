@@ -14,7 +14,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * An associative array storing key-value pairs on a hard disk.
+ * An associative array storing key-value pairs on a hard disk. Task1
+ * <p>
+ * When creating a class object, data is loaded from a file into a buffer with validation.
+ * It is possible to work with DiskMap data as with Map.
+ * But it is very important to understand that buffer changes must be saved by calling the save Data On Disk Map method,
+ * otherwise the changes will not be written to the hard disk
  */
 public final class DiskMap implements Map<String, String> {
     private static final String PATH_IS_NOT_FILE_EXCEPTION = "The passed path is not the path to the file";
@@ -40,6 +45,19 @@ public final class DiskMap implements Map<String, String> {
         this.dataFile = loadDataMap();
     }
 
+    /**
+     * Method of preparing the file for DiskMap.
+     * <p>
+     * if necessary, a file is created according to the path passed to the constructor, a record will be recorded there.
+     * If the file has already been created, then this file is simply returned.
+     * If a file creation error occurs or the passed path is not the path to the file,
+     * an exception will be returned with the corresponding message
+     *
+     * @param filePath path to DiskMap file.
+     * @return a ready-to-work object of the File class
+     * @throws DiskMapException if the passed path cannot be created or is incorrect,
+     *                          an error is returned with the corresponding message
+     */
     private File prepareFile(String filePath) throws DiskMapException {
         File file = new File(filePath);
         try {
@@ -54,6 +72,15 @@ public final class DiskMap implements Map<String, String> {
         throw new DiskMapException(PATH_IS_NOT_FILE_EXCEPTION);
     }
 
+    /**
+     * Method of downloading information that is available on the hard disk.
+     * The file that the program is working with is being read,
+     * data from it is being read into a temporary buffer that is represented by Map.
+     * Data validation takes place in the method
+     *
+     * @return data from the disk, if the disk is empty, an empty buffer will be returned.
+     * @throws DiskMapException if the data in the file turns out to be invalid, an exception will occur.
+     */
     private Map<String, String> loadDataMap() throws DiskMapException {
         try (BufferedReader bfr = new BufferedReader(new FileReader(this.diskMapFile))) {
             Map<String, String> dataMap = new HashMap<>();
@@ -72,6 +99,9 @@ public final class DiskMap implements Map<String, String> {
         }
     }
 
+    /**
+     * Saving local DiskMap changes to disk.
+     */
     public String saveDataOnDiskMap() {
         try (BufferedWriter bfr = new BufferedWriter(new FileWriter(this.diskMapFile))) {
             for (var data : this.dataFile.entrySet()) {

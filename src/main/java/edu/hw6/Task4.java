@@ -17,6 +17,12 @@ public final class Task4 {
 
     }
 
+    /**
+     * Writing to a file via composite OutputStream attachments.
+     *
+     * @param filePath the path to the file where the text will be written.
+     * @param text     the text that will be written to the file.
+     */
     public static void writeToFile(Path filePath, String text) {
         try (var pw = new OutputStreamWriter(
             new BufferedOutputStream(
