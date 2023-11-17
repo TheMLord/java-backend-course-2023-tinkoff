@@ -14,7 +14,7 @@
 18:tcp,Message Send Protocol
 19:tcp,Character Generator
 20:tcp,File
-21:tcp, File Transfer Protocol
+21:tcp,File Transfer Protocol
 22:tcp,The Secure Shell (SSH) Protocol
 23:tcp,Telnet
 24:tcp,any private mail system

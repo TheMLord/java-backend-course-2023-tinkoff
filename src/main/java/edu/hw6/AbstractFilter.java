@@ -45,13 +45,8 @@ public interface AbstractFilter extends DirectoryStream.Filter<Path> {
      * Checking size
      */
     static AbstractFilter largerThan(long size) {
-        return path -> {
-            try {
-                return Files.size(path) > size;
-            } catch (IOException e) {
-                return false;
-            }
-        };
+        return path -> Files.size(path) >= size;
+
     }
 
     /**
