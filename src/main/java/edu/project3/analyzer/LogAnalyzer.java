@@ -9,10 +9,10 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 /**
  * Класс анализатора лога.
@@ -78,13 +78,13 @@ public class LogAnalyzer {
 
         long sizeResponse = 0;
 
-        Map<String, Integer> requestedResourcesMap = new HashMap<>();
+        Map<String, Integer> requestedResourcesMap = new TreeMap<>();
 
-        Map<ResponseStatus, Integer> responseStatusIntegerMap = new HashMap<>();
+        Map<ResponseStatus, Integer> responseStatusIntegerMap = new TreeMap<>();
 
-        Map<String, Integer> remoteAddressActivityMap = new HashMap<>();
+        Map<String, Integer> remoteAddressActivityMap = new TreeMap<>();
 
-        Map<LocalDate, Integer> dayActivityMap = new HashMap<>();
+        Map<LocalDate, Integer> dayActivityMap = new TreeMap<>();
 
         for (var path : this.logPathsList) {
             var logRecordList = LogParser.parseNGNIXLog(path).filter(log -> isInTimeRange(log.time())).toList();

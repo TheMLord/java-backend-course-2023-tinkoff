@@ -28,14 +28,14 @@ public class TestProject3 {
         @TempDir
         Path testDirMD
     ) throws IOException {
+        var logFilePath = Path.of(TestProject3.class.getResource("/goldenMdResult.md").getPath());
+        var expectedContent = Files.readString(logFilePath);
 
-        var exceptedResultFilePath = Path.of(TestProject3.class.getResource("/goldenMdResult.md").getPath());
-
-        var actualresultFilePath = testDirMD.resolve("result.md");
+        var saveFilePath = testDirMD.resolve("result.md");
 
         var logAnalyzer = new LogAnalyzer(
             PATH_TO_LOG,
-            actualresultFilePath,
+            saveFilePath,
             new MarkDown(),
             Optional.empty(),
             Optional.empty()
@@ -43,11 +43,9 @@ public class TestProject3 {
 
         logAnalyzer.analyzeLogs();
 
-        var expectedContent = Files.readString(exceptedResultFilePath);
-        var actualContent = Files.readString(actualresultFilePath);
-        var isEqualsResult = expectedContent.equals(actualContent);
+        var actualContent = Files.readString(saveFilePath);
 
-        assertThat(isEqualsResult).isTrue();
+        assertThat(actualContent).isEqualTo(expectedContent);
     }
 
     @Test
@@ -56,25 +54,23 @@ public class TestProject3 {
     void testThatTheLogFileIsParsedCorrectlyAndFilteredReturnedTheCorrectDocFile(
         @TempDir Path testDirADOC
     ) throws IOException {
-        var exceptedResultFilePath = Path.of(TestProject3.class.getResource("/goldenADOCResult.adoc").getPath());
+        var logFilePath = Path.of(TestProject3.class.getResource("/goldenADOCResult.adoc").getPath());
+        var expectedContent = Files.readString(logFilePath);
 
-        var actualresultFilePath = testDirADOC.resolve("result.adoc");
+        var saveFilePath = testDirADOC.resolve("result.adoc");
 
         var logAnalyzer = new LogAnalyzer(
             PATH_TO_LOG,
-            actualresultFilePath,
+            saveFilePath,
             new ASCIIDoc(),
             Optional.empty(),
             Optional.empty()
         );
         logAnalyzer.analyzeLogs();
 
-        var expectedContent = Files.readString(exceptedResultFilePath);
-        var actualContent = Files.readString(actualresultFilePath);
+        var actualContent = Files.readString(saveFilePath);
 
-        var isEqualsResult = expectedContent.equals(actualContent);
-
-        assertThat(isEqualsResult).isTrue();
+        assertThat(actualContent).isEqualTo(expectedContent);
     }
 
 }
