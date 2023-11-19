@@ -16,11 +16,9 @@ import org.junit.jupiter.api.io.TempDir;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestProject3 {
-    private static final List<String> PATH_TO_LOG = List.of(String.valueOf(Paths.get(
-        String.valueOf(Paths.get("")
-            .toAbsolutePath()),
-        "src/test/java/edu/project3/test.log"
-    )));
+    private static final List<String> PATH_TO_LOG = List.of(
+        TestProject3.class.getResource("/test.log").getPath()
+    );
 
     @Test
     @Order(1)
@@ -31,8 +29,8 @@ public class TestProject3 {
         Path testDirMD
     ) throws IOException {
 
-        var exceptedResultFilePath =
-            Paths.get(String.valueOf(Paths.get("").toAbsolutePath()), "src/test/java/edu/project3/goldenMdResult.md");
+        var exceptedResultFilePath = Path.of(TestProject3.class.getResource("/goldenMdResult.md").getPath());
+
         var actualresultFilePath = testDirMD.resolve("result.md");
 
         var logAnalyzer = new LogAnalyzer(
@@ -59,11 +57,7 @@ public class TestProject3 {
     void testThatTheLogFileIsParsedCorrectlyAndFilteredReturnedTheCorrectDocFile(
         @TempDir Path testDirADOC
     ) throws IOException {
-        var exceptedResultFilePath =
-            Paths.get(
-                String.valueOf(Paths.get("").toAbsolutePath()),
-                "src/test/java/edu/project3/goldenADOCResult.adoc"
-            );
+        var exceptedResultFilePath = Path.of(TestProject3.class.getResource("/goldenADOCResult.adoc").getPath());
 
         var actualresultFilePath = testDirADOC.resolve("result.adoc");
 
