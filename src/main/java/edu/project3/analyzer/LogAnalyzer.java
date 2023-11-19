@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Класс анализатора лога.
+ */
 public class LogAnalyzer {
     private static final String GENERAL_INFO_METRIC_HEADER = "Общая информация";
     private static final String GENERAL_INFO_TABLE_HEADER_1 = "Метрика";
@@ -47,6 +50,15 @@ public class LogAnalyzer {
     protected final Optional<OffsetDateTime> from;
     protected final Optional<OffsetDateTime> to;
 
+    /**
+     * Конструктор класса.
+     *
+     * @param logPathsList    список путей в виде строк до файлов с логами.
+     * @param pathToSave      путь сохранения файла.
+     * @param markupsLanguage тип вывода.
+     * @param from            опциональный временной параметр начала фильтрации логов.
+     * @param to              опциональный временной параметр конца фильтрации логов.
+     */
     public LogAnalyzer(
         List<String> logPathsList, Path pathToSave, MarkupsLanguage markupsLanguage,
         Optional<OffsetDateTime> from, Optional<OffsetDateTime> to
@@ -58,6 +70,9 @@ public class LogAnalyzer {
         this.to = to;
     }
 
+    /**
+     * Метод анализирующий лог. После анализа создает файл с метриками указанного типа и сохраняет по переданному пути.
+     */
     public void analyzeLogs() {
         int countRequest = 0;
 
@@ -98,6 +113,15 @@ public class LogAnalyzer {
         this.markupsLanguage.printLogMetric(this.pathToSave, logReportDayActivity);
     }
 
+    /**
+     * Подготовка метрики с основной информацией.
+     * Делает метрику с информацией о проанализированных файлах, дате начала, дате конца,
+     * количестве запросов, среднем размере принятых байтов.
+     *
+     * @param countRequest общее количество запросов.
+     * @param sizeResponse суммарный размер принятых байтов.
+     * @return возвращает подготовленный к печати LogReport по этой метрике.
+     */
     private LogReport prepareGeneralInfo(int countRequest, long sizeResponse) {
         var startData =
             this.from.map(offsetDateTime -> offsetDateTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)).orElse("-");
@@ -124,6 +148,13 @@ public class LogAnalyzer {
         );
     }
 
+    /**
+     * Подготовка метрики с запрашиваемыми ресурсами.
+     * Подготавливает метрику с информацией об запрошенных ресурсах и их количестве.
+     *
+     * @param requestResourceMap Map со статистикой по этой метрике
+     * @return возвращает подготовленный к печати LogReport по этой метрике.
+     */
     private LogReport prepareRequestResourceInfo(Map<String, Integer> requestResourceMap) {
         var resourceInfoList = requestResourceMap.entrySet().stream()
             .map(entry -> List.of(entry.getKey(), entry.getValue().toString()))
@@ -139,6 +170,13 @@ public class LogAnalyzer {
         );
     }
 
+    /**
+     * Подготавливает метрику с кодами ответов.
+     * Сделает метрику с информацией о кодах, их расшифровке и общем количестве.
+     *
+     * @param responseStatusMap Map со статистикой по этой метрике
+     * @return возвращает подготовленный к печати LogReport по этой метрике.
+     */
     private LogReport prepareReportResponseStatusInfo(Map<ResponseStatus, Integer> responseStatusMap) {
         var responseStatusList = responseStatusMap.entrySet().stream()
             .map(entry -> List.of(
@@ -155,6 +193,13 @@ public class LogAnalyzer {
         );
     }
 
+    /**
+     * Подготовка метрики с информацией об активности пользователей.
+     * Возвращает метрику с активностями пользователей - кто запрашивал и сколько.
+     *
+     * @param remoteAddressMap Map со статистикой по этой метрике
+     * @return возвращает подготовленный к печати LogReport по этой метрике.
+     */
     private LogReport prepareRemoteAddressActivityInfo(Map<String, Integer> remoteAddressMap) {
         var addressActivityList = remoteAddressMap.entrySet().stream()
             .map(entry -> List.of(
@@ -170,6 +215,12 @@ public class LogAnalyzer {
         );
     }
 
+    /**
+     * Подготовка метрки с информацией о количестве запросов на каждый день.
+     *
+     * @param dayActivityMap Map со статистикой по этой метрике
+     * @return возвращает подготовленный к печати LogReport по этой метрике.
+     */
     private LogReport prepareDayActivityInfo(Map<LocalDate, Integer> dayActivityMap) {
         var activityDayList = dayActivityMap.entrySet().stream()
             .map(entry -> List.of(
@@ -185,27 +236,42 @@ public class LogAnalyzer {
         );
     }
 
+    /**
+     * Изменения Map по метрике
+     */
     private void updateRequestedResourcesMap(Map<String, Integer> map, String resource) {
         map.putIfAbsent(resource, 0);
         map.put(resource, map.get(resource) + 1);
     }
 
+    /**
+     * Изменения Map по метрике
+     */
     private void updateResponseStatusMap(Map<ResponseStatus, Integer> map, ResponseStatus response) {
         map.putIfAbsent(response, 0);
         map.put(response, map.get(response) + 1);
     }
 
+    /**
+     * Изменения Map по метрике
+     */
     private void updateRemoteAddressMap(Map<String, Integer> map, String remoteAddress) {
         map.putIfAbsent(remoteAddress, 0);
         map.put(remoteAddress, map.get(remoteAddress) + 1);
     }
 
+    /**
+     * Изменения Map по метрике
+     */
     private void updateDayActivityMap(Map<LocalDate, Integer> map, OffsetDateTime time) {
         var day = LocalDate.of(time.getYear(), time.getMonthValue(), time.getDayOfMonth());
         map.putIfAbsent(day, 0);
         map.put(day, map.get(day) + 1);
     }
 
+    /**
+     * Изменения Map по метрике
+     */
     private boolean isInTimeRange(OffsetDateTime time) {
         return (this.from.isEmpty() || time.isEqual(this.from.get()) || time.isAfter(this.from.get()))
             && (this.to.isEmpty() || time.isEqual(this.to.get()) || time.isBefore(this.to.get()));

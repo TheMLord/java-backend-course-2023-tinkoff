@@ -18,6 +18,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import static java.net.http.HttpClient.newHttpClient;
 
+/**
+ * Парсер NGINX логов.
+ */
 public final class LogParser {
     private static final String LOG_SEPARATOR = " ";
 
@@ -43,10 +46,18 @@ public final class LogParser {
 
     private static final int SIZE_LINE_LOG = 9;
 
+    /**
+     * Конструктор класса.
+     */
     private LogParser() {
 
     }
 
+    /**
+     * Метод, парсящий логи.
+     *
+     * @param pathToLog путь до локального файла с логом или http путь до файла с логом.
+     */
     public static Stream<LogRecord> parseNGNIXLog(String pathToLog) {
         try {
             if (!pathToLog.startsWith("https")) {
@@ -58,6 +69,10 @@ public final class LogParser {
         }
     }
 
+    /**
+     * Метод, делающий Get запрос на получение логов.
+     * Вызывается в случае, если переданный путь до файла с логами получается по Http запросу.
+     */
     private static Stream<String> getHttpLog(String pathToLog) throws IOException, InterruptedException {
         return newHttpClient().send(
             HttpRequest.newBuilder(URI.create(pathToLog)).GET().build(),
@@ -65,6 +80,9 @@ public final class LogParser {
         ).body();
     }
 
+    /**
+     * Преобразование строки лога в модель с информацией о логе.
+     */
     private static LogRecord prepareLogRecord(String logLine) {
         var logArg = parseLineLog(logLine);
         return new LogRecord(
@@ -80,6 +98,10 @@ public final class LogParser {
         );
     }
 
+    /**
+     * Разбиение очередной строки из файла с логами по регулярному выражению,
+     * для получения отдельных информационных компонентов лога.
+     */
     private static String[] parseLineLog(String line) {
         String[] logParts = new String[SIZE_LINE_LOG];
 
@@ -92,10 +114,17 @@ public final class LogParser {
         return logParts;
     }
 
+    /**
+     * Преобразование даты в логе к OffsetDateTime
+     */
     private static OffsetDateTime parseTime(String time) {
         return OffsetDateTime.parse(time, DATE_FORMATTER);
     }
 
+    /**
+     * Получение модели запроса из лога для большей информативности.
+     * Выделяет из лога информацию о методе http, запрашиваемом ресурсе, версии http.
+     */
     private static RequestRecord parseRequest(String request) {
         var httpRequest = request.split(LOG_SEPARATOR);
 
@@ -106,6 +135,9 @@ public final class LogParser {
         );
     }
 
+    /**
+     * Возвращение информации о коде ответа.
+     */
     private static ResponseStatus parseResponseStatus(String statusCode) {
         return ResponseStatus.responseCodeOf(Integer.parseInt(statusCode));
     }

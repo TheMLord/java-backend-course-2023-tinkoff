@@ -1,5 +1,8 @@
 package edu.project3.models;
 
+/**
+ * Enum с кодами HTTP ответов.
+ */
 public enum ResponseStatus {
     CONTINUE(100),
     Switching_Protocols(101),

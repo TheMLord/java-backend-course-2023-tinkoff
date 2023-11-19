@@ -9,10 +9,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * Общий контракт форматов вывода.
+ */
 public abstract class MarkupsLanguage {
     private static final Logger MARKUP_LOGGER = Logger.getLogger(MarkupsLanguage.class.getName());
     private static final String NEW_LINE = "\n\n";
 
+    /**
+     * Метод печати метрик в соответствующем формате в файл для сохранения.
+     *
+     * @param pathToSave путь до файла, куда записываются метрики по логам.
+     * @param logReport  модель метрики.
+     */
     public void printLogMetric(Path pathToSave, LogReport logReport) {
         var logMetric = new StringBuilder();
 
@@ -34,8 +43,19 @@ public abstract class MarkupsLanguage {
         }
     }
 
+    /**
+     * Метод преобразования заголовка к синтаксису формата вывода
+     *
+     * @param header заголовок
+     */
     protected abstract String prepareHeaderMetric(String header);
 
+    /**
+     * Метод преобразования таблицы к синтаксису формата вывода
+     *
+     * @param headersTable заголовки таблицы
+     * @param tableValues  значения в таблице
+     */
     protected abstract String prepareTableMetric(List<String> headersTable, List<List<String>> tableValues);
 
 }

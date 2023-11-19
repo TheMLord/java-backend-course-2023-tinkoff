@@ -2,6 +2,9 @@ package edu.project3.markups;
 
 import java.util.List;
 
+/**
+ * Реализация вывода метрик по логам в виде MD.
+ */
 public final class MarkDown extends MarkupsLanguage {
     private static final String MD_HEADER = "### ";
     private static final String MD_TABLE_SEPARATOR = "|";

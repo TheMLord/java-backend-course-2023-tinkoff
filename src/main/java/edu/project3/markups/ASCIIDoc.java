@@ -2,6 +2,9 @@ package edu.project3.markups;
 
 import java.util.List;
 
+/**
+ * Реализация вывода метрик по логам в виде ADOC.
+ */
 public final class ASCIIDoc extends MarkupsLanguage {
     private static final String ADOC_HEADER = "=== ";
     private static final String ADOC_TABLE_SEPARATOR = "|===";
