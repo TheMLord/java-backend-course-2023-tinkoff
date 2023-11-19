@@ -4,11 +4,11 @@ import edu.project3.analyzer.LogAnalyzer;
 import edu.project3.markups.ASCIIDoc;
 import edu.project3.markups.MarkDown;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -45,7 +45,10 @@ public class TestProject3 {
 
         logAnalyzer.analyzeLogs();
 
-        var isEqualsResult = FileUtils.contentEquals(exceptedResultFilePath.toFile(), actualresultFilePath.toFile());
+        var expectedContent = Files.readString(exceptedResultFilePath);
+        var actualContent = Files.readString(actualresultFilePath);
+
+        var isEqualsResult = expectedContent.equals(actualContent);
 
         assertThat(isEqualsResult).isTrue();
     }
@@ -54,8 +57,7 @@ public class TestProject3 {
     @Order(2)
     @DisplayName("Test that the log file is parsed correctly and filtered returned the correct DOC file")
     void testThatTheLogFileIsParsedCorrectlyAndFilteredReturnedTheCorrectDocFile(
-        @TempDir
-        Path testDirADOC
+        @TempDir Path testDirADOC
     ) throws IOException {
         var exceptedResultFilePath =
             Paths.get(
@@ -72,9 +74,12 @@ public class TestProject3 {
             Optional.empty(),
             Optional.empty()
         );
-
         logAnalyzer.analyzeLogs();
-        var isEqualsResult = FileUtils.contentEquals(exceptedResultFilePath.toFile(), actualresultFilePath.toFile());
+
+        var expectedContent = Files.readString(exceptedResultFilePath);
+        var actualContent = Files.readString(actualresultFilePath);
+
+        var isEqualsResult = expectedContent.equals(actualContent);
 
         assertThat(isEqualsResult).isTrue();
     }
