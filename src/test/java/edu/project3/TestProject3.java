@@ -45,8 +45,6 @@ public class TestProject3 {
 
         var expectedContent = Files.readString(exceptedResultFilePath);
         var actualContent = Files.readString(actualresultFilePath);
-        System.out.println(expectedContent);
-        System.out.println(actualContent);
         var isEqualsResult = expectedContent.equals(actualContent);
 
         assertThat(isEqualsResult).isTrue();
