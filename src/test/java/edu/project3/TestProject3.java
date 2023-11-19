@@ -17,7 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestProject3 {
     private static final List<String> PATH_TO_LOG = List.of(String.valueOf(Paths.get(
-        String.valueOf(Paths.get("").toAbsolutePath()),
+        String.valueOf(Paths.get("")
+            .toAbsolutePath()),
         "src/test/java/edu/project3/test.log"
     )));
 
