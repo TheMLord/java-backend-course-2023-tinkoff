@@ -6,7 +6,6 @@ import edu.project3.markups.MarkDown;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +15,7 @@ import org.junit.jupiter.api.io.TempDir;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestProject3 {
+
     private static final List<String> PATH_TO_LOG = List.of(
         TestProject3.class.getResource("/test.log").getPath()
     );

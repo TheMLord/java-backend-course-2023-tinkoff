@@ -3,7 +3,7 @@
 
 |===
 | Метрика | Значение 
-|Файл(-ы)|[/home/themlord/IdeaProjects/java-backend-course-2023-tinkoff/target/test-classes/test.log]
+|Файл(-ы)|[test.log]
 |Начальная дата|-
 |Конечная дата|-
 |Количество запросов|8

@@ -5,6 +5,7 @@ import edu.project3.markups.MarkupsLanguage;
 import edu.project3.models.LogReport;
 import edu.project3.models.ResponseStatus;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -109,7 +110,12 @@ public class LogAnalyzer {
                 GENERAL_INFO_TABLE_HEADER_2
             ),
             List.of(
-                List.of(GENERAL_INFO_TABLE_VALUE_1_1, this.logPathsList.toString()),
+                List.of(GENERAL_INFO_TABLE_VALUE_1_1, this.logPathsList.stream()
+                    .map(Paths::get)
+                    .toList().stream()
+                    .map(Path::getFileName)
+                    .map(Path::toString)
+                    .toList().toString()),
                 List.of(GENERAL_INFO_TABLE_VALUE_2_1, startData),
                 List.of(GENERAL_INFO_TABLE_VALUE_3_1, endData),
                 List.of(GENERAL_INFO_TABLE_VALUE_4_1, String.valueOf(countRequest)),
