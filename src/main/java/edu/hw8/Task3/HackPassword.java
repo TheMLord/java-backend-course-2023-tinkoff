@@ -21,7 +21,8 @@ public final class HackPassword {
     /**
      * Class constructor.
      *
-     * @param encodedPassword database of passwords in a dictionary, where the key is a hash and the value is the username.
+     * @param encodedPassword database of passwords in a dictionary, where the key is a hash and the value
+     *                        is the username.
      * @param countThread     count threads.
      * @param minLen          minimum length password.
      * @param maxLen          maximum length password.
@@ -55,8 +56,8 @@ public final class HackPassword {
 
     /**
      * Recursive method that generates the next password.
-     * <p>
-     * The method collects passwords for the current length, converts it to md5 and checks if there is one in the database,
+     * The method collects passwords for the current length,
+     * converts it to md5 and checks if there is one in the database,
      * after which it enters the decrypted password,
      * if found.
      *
