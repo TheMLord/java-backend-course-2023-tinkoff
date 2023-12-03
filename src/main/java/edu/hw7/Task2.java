@@ -25,7 +25,11 @@ public final class Task2 {
         if (n < 0) {
             throw new IllegalArgumentException(INVALID_VALUE);
         }
-        return LongStream.rangeClosed(1, n).boxed().toList().parallelStream().reduce(1L, (x, y) -> x * y);
+        return LongStream.rangeClosed(1, n)
+            .boxed()
+            .toList()
+            .parallelStream()
+            .reduce(1L, (x, y) -> x * y);
     }
 
     /**

@@ -41,7 +41,7 @@ public final class Task1 {
             threadTwo.join();
             threadThree.join();
         } catch (InterruptedException e) {
-            TASK_1_LOGGER.info(e.getMessage());
+            TASK_1_LOGGER.info("A thread interruption has occurred " + e.getMessage());
             TASK_1_LOGGER.info(Arrays.toString(e.getStackTrace()));
         }
         TASK_1_LOGGER.info("Current counter value: " + counter);
