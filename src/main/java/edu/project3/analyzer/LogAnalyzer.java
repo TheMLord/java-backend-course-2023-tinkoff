@@ -44,6 +44,12 @@ public class LogAnalyzer {
     private static final String DAY_ACTIVITY_TABLE_HEADER_1 = "День";
     private static final String DAY_ACTIVITY_TABLE_HEADER_2 = "Количество запросов в день";
 
+    private LogReport logReportGeneralInfo;
+    private LogReport logReportRequestResource;
+    private LogReport logReportResponseStatus;
+    private LogReport logReportRemoteAddressActivity;
+    private LogReport logReportDayActivity;
+
     protected final List<String> logPathsList;
     protected final Path pathToSave;
     protected final MarkupsLanguage markupsLanguage;
@@ -100,11 +106,11 @@ public class LogAnalyzer {
             }
         }
 
-        var logReportGeneralInfo = prepareGeneralInfo(countRequest, sizeResponse);
-        var logReportRequestResource = prepareRequestResourceInfo(requestedResourcesMap);
-        var logReportResponseStatus = prepareReportResponseStatusInfo(responseStatusIntegerMap);
-        var logReportRemoteAddressActivity = prepareRemoteAddressActivityInfo(remoteAddressActivityMap);
-        var logReportDayActivity = prepareDayActivityInfo(dayActivityMap);
+        logReportGeneralInfo = prepareGeneralInfo(countRequest, sizeResponse);
+        logReportRequestResource = prepareRequestResourceInfo(requestedResourcesMap);
+        logReportResponseStatus = prepareReportResponseStatusInfo(responseStatusIntegerMap);
+        logReportRemoteAddressActivity = prepareRemoteAddressActivityInfo(remoteAddressActivityMap);
+        logReportDayActivity = prepareDayActivityInfo(dayActivityMap);
 
         this.markupsLanguage.printLogMetric(this.pathToSave, logReportGeneralInfo);
         this.markupsLanguage.printLogMetric(this.pathToSave, logReportRequestResource);
@@ -123,6 +129,8 @@ public class LogAnalyzer {
      * @return возвращает подготовленный к печати LogReport по этой метрике.
      */
     private LogReport prepareGeneralInfo(int countRequest, long sizeResponse) {
+        long averageSizeRequest = (sizeResponse == 0 || countRequest == 0) ? 0 : sizeResponse / countRequest;
+
         var startData =
             this.from.map(offsetDateTime -> offsetDateTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)).orElse("-");
         var endData =
@@ -143,7 +151,7 @@ public class LogAnalyzer {
                 List.of(GENERAL_INFO_TABLE_VALUE_2_1, startData),
                 List.of(GENERAL_INFO_TABLE_VALUE_3_1, endData),
                 List.of(GENERAL_INFO_TABLE_VALUE_4_1, String.valueOf(countRequest)),
-                List.of(GENERAL_INFO_TABLE_VALUE_5_1, String.valueOf(sizeResponse / countRequest))
+                List.of(GENERAL_INFO_TABLE_VALUE_5_1, String.valueOf(averageSizeRequest))
             )
         );
     }
@@ -277,4 +285,23 @@ public class LogAnalyzer {
             && (this.to.isEmpty() || time.isEqual(this.to.get()) || time.isBefore(this.to.get()));
     }
 
+    public LogReport getLogReportGeneralInfo() {
+        return logReportGeneralInfo;
+    }
+
+    public LogReport getLogReportRequestResource() {
+        return logReportRequestResource;
+    }
+
+    public LogReport getLogReportResponseStatus() {
+        return logReportResponseStatus;
+    }
+
+    public LogReport getLogReportRemoteAddressActivity() {
+        return logReportRemoteAddressActivity;
+    }
+
+    public LogReport getLogReportDayActivity() {
+        return logReportDayActivity;
+    }
 }
