@@ -10,10 +10,16 @@ import java.util.concurrent.RecursiveTask;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Recursive algorithm for searching directories from the specified root to the end,
+ * which returns a list of directories in which there are more files than indicated for input.
+ */
 public class AlgorithmSearchDirectoryForLength extends RecursiveTask<List<Path>> {
     private static final Logger SEARCH_FOR_LENGTH_LOGGER =
         LogManager.getLogger(AlgorithmSearchDirectoryForLength.class.getName());
     private static final String FILE_ERROR = "error working with files";
+    private static final String WORK_MESSAGE = "do task";
+
     private final Path rootPath;
     private final int directoryLength;
 
@@ -25,7 +31,7 @@ public class AlgorithmSearchDirectoryForLength extends RecursiveTask<List<Path>>
     @Override
     protected List<Path> compute() {
         List<Path> directories = new ArrayList<>();
-
+        SEARCH_FOR_LENGTH_LOGGER.info(WORK_MESSAGE);
         if (Files.isDirectory(rootPath)) {
             try (DirectoryStream<Path> ds = Files.newDirectoryStream(rootPath)) {
                 List<AlgorithmSearchDirectoryForLength> tasks = new ArrayList<>();
