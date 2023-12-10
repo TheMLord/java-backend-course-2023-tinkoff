@@ -74,11 +74,11 @@ public final class ArgumentsParser {
                 case "--samples" -> samples = parseIntegerNumber(args, ++i);
                 case "--iterations" -> iterations = parseIntegerNumber(args, ++i);
                 case "--symmetry" -> symmetry = parseIntegerNumber(args, ++i);
-                case "-gamma" -> gamma = parseDoubleNumber(args, ++i);
+                case "--gamma" -> gamma = parseDoubleNumber(args, ++i);
                 case "--threads" -> countThreads = parseIntegerNumber(args, ++i);
                 case "--pathToSave" -> pathToSave = Path.of(args[++i]);
                 case "--formatImg" -> imageFormat = parseImageFormat(args, ++i);
-                default -> throw new IllegalArgumentException(INVALID_ARGUMENT);
+                default -> throw new IllegalArgumentException(INVALID_ARGUMENT + " " + args[i]);
             }
         }
         return new Arguments(
@@ -121,7 +121,7 @@ public final class ArgumentsParser {
     private static Transform parseNonLinearTransform(String s) throws IllegalArgumentException {
         Transform transform;
         switch (s) {
-            case "Diamonds" -> transform = new Diamond();
+            case "Diamond" -> transform = new Diamond();
             case "Disk" -> transform = new Disk();
             case "Handkerchief" -> transform = new Handkerchief();
             case "Heart" -> transform = new Heart();
