@@ -59,7 +59,7 @@ public final class ArgumentsParser {
         ImageFormat imageFormat = null;
 
         for (int i = 0; i < args.length; i++) {
-            switch (args[i]) {
+            switch (args[i].trim()) {
                 case "--size" -> sizeList = parseSize(args, ++i);
                 case "--nonlinear" -> {
                     int n = Integer.parseInt(args[++i]);
@@ -132,7 +132,7 @@ public final class ArgumentsParser {
             case "Spherical" -> transform = new Spherical();
             case "Spiral" -> transform = new Spiral();
             case "Swirl" -> transform = new Swirl();
-            default -> throw new IllegalArgumentException(INCORRECT_TRANSFORM_ARGUMENTS);
+            default -> throw new IllegalArgumentException(INCORRECT_TRANSFORM_ARGUMENTS + " " + s);
         }
         return transform;
     }
