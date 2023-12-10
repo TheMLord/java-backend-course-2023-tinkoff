@@ -113,7 +113,7 @@ public class TestArgumentParser {
             ),
             Arguments.of(
                 "--sizzes 1920x1080 " +
-                    "--nonlinear11 Diamddond Disk Handkerchief Heart Horseshoe Linear Polar Sinusoidal Spherical Spiral Swirl " +
+                    "--nonlinear 11 Diamddond Disk Handkerchief Heart Horseshoe Linear Polar Sinusoidal Spherical Spiral Swirl " +
                     "--coeff " + PATH_TO_COEFF + " " +
                     "--samples 45684 " +
                     "--iterations 4000 " +

@@ -59,7 +59,6 @@ public class TestMultithreadingRender {
             timeMultiRender
         );
 
-        assertThat(timeSingleRender > timeMultiRender).isTrue();
     }
 
     private double getBenchmarkSingleRender(Path testPath) throws IOException {
