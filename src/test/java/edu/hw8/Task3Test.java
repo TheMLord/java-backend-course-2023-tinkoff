@@ -9,32 +9,19 @@ import org.junit.jupiter.api.Test;
 
 public class Task3Test {
     private static final double NANO_T0_SECONDS = 0.000000001;
-    private static final String RESULT_WORK_MESSAGE = "Время работы с %d потоком/и - %f секунд\n";
 
     @Test
     @DisplayName(
         "Test of the average solution acceleration time depending on the number of threads for selecting passwords of length from 1 to 3")
     void testOfTheAverageSolutionAccelerationTimeDependingOnTheNumberOfThreadsForSelectingPasswordsOfLengthFrom1To3()
         throws InterruptedException {
-        var ps = new PrintStream(System.out);
 
         var time1Thread = getTimeWorkAlgorithm(1);
-        ps.printf(RESULT_WORK_MESSAGE, 1, time1Thread);
         var time2Thread = getTimeWorkAlgorithm(2);
-        ps.printf(RESULT_WORK_MESSAGE, 2, time2Thread);
 
         var time3Thread = getTimeWorkAlgorithm(3);
-        ps.printf(RESULT_WORK_MESSAGE, 3, time3Thread);
 
-        var time4Thread = getTimeWorkAlgorithm(4);
-        ps.printf(RESULT_WORK_MESSAGE, 4, time4Thread);
-
-        var avr12 = time1Thread / time2Thread;
-        var avr13 = time1Thread / time3Thread;
-        var avr14 = time1Thread / time4Thread;
-
-        ps.println("Среднее время ускорения при увеличении потоков (по сравнению с однопоточным исполнением) - " +
-            (avr12 + avr13 + avr14) / 3);
+        printResultTest(time1Thread, time2Thread, time3Thread);
 
     }
 
@@ -49,10 +36,26 @@ public class Task3Test {
 
         var tStart = System.nanoTime();
         var hack = new HackPassword(db, countThread, minLen, maxLen);
-        var encodedDB = hack.hackDatabasePassword();
+        hack.hackDatabasePassword();
         var tEnd = System.nanoTime();
         return ((tEnd - tStart) * NANO_T0_SECONDS);
+    }
 
+    private void printResultTest(double time1, double time2, double time3) {
+
+        var ps = new PrintStream(System.out);
+
+        double speedup2 = time1 / time2;
+        double speedup3 = time1 / time3;
+
+        double averageSpeedup = (speedup2 + speedup3) / 3;
+
+        ps.println("Average Speedup: " + averageSpeedup);
+        ps.println("Count threads    | Time Interval");
+        ps.println("-----------------|--------------");
+        ps.println("1                | " + time1);
+        ps.println("2                | " + time2);
+        ps.println("3                | " + time3);
     }
 
 }

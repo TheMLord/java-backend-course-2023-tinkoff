@@ -20,9 +20,15 @@ public class Task1Test {
     private static QuoteServer quoteServer;
 
     @BeforeAll
-    private static void startService() throws IOException, InterruptedException {
+    public static void startService() throws IOException, InterruptedException {
         quoteServer = QuoteServer.buildQuoteServer();
-        var threadServer = new Thread(() -> quoteServer.startServer());
+        var threadServer = new Thread(() -> {
+            try {
+                quoteServer.startServer();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         threadServer.start();
         Thread.sleep(1000);
     }
@@ -64,7 +70,6 @@ public class Task1Test {
             var client = Client.createClient("localhost", 10101);
 
             var actualMessage = client.sendMessage(request);
-            client.closeClient();
 
             assertThat(actualMessage).isEqualTo(response);
         }
@@ -100,7 +105,6 @@ public class Task1Test {
                         var actualResponse = client.sendMessage(" ");
                         assertThat(actualResponse).isEqualTo(exceptedResponse);
                         actualCountResponse.incrementAndGet();
-                        client.closeClient();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -113,10 +117,5 @@ public class Task1Test {
             thread.join();
         }
         return actualCountResponse;
-    }
-
-    @AfterAll
-    private static void stopService() throws IOException {
-        quoteServer.closeServer();
     }
 }

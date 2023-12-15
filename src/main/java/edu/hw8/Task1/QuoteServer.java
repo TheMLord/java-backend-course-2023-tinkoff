@@ -29,10 +29,8 @@ public final class QuoteServer {
 
     private static final String DEFAULT_SERVER_HOST = "localhost";
     private static final int DEFAULT_SERVER_PORT = 10101;
-
-    private final Selector selector;
-    private final ServerSocketChannel serverSocket;
-    private final ExecutorService executorService;
+    private final String serverHost;
+    private final int serverPort;
 
     private static final int BYTE_BUFFER_SIZE = 1024;
     private static final int EMPTY_FLAG_BUFFER = -1;
@@ -60,21 +58,9 @@ public final class QuoteServer {
     /**
      * Class constructor.
      */
-    private QuoteServer(String host, int port) throws IOException {
-        executorService = Executors.newFixedThreadPool(MAX_CONNECTION);
-
-        try {
-            selector = Selector.open();
-
-            serverSocket = ServerSocketChannel.open();
-            serverSocket.configureBlocking(false);
-            serverSocket.bind(new InetSocketAddress(host, port));
-
-            serverSocket.register(selector, SelectionKey.OP_ACCEPT);
-        } catch (IOException e) {
-            SERVER_LOGGER.info("Ошибка настройки конфигурации " + e.getMessage());
-            throw new IOException(e);
-        }
+    private QuoteServer(String host, int port) {
+        this.serverHost = host;
+        this.serverPort = port;
     }
 
     /**
@@ -97,37 +83,78 @@ public final class QuoteServer {
     /**
      * The method that starts the server operation.
      */
-    public void startServer() {
-        while (true) {
-            try {
-                int count = selector.select();
-                if (count == 0) {
-                    continue;
-                }
+    public void startServer() throws IOException {
+        try (var selector = Selector.open()) {
+            try (var serverSocket = ServerSocketChannel.open()) {
 
-                var keySet = selector.selectedKeys();
-                var iterator = keySet.iterator();
-                while (iterator.hasNext()) {
-                    var selectionKey = (SelectionKey) iterator.next();
-                    iterator.remove();
+                configureServerSocket(serverSocket, selector);
+                processConnection(selector, serverSocket);
 
-                    if (selectionKey.isValid()) {
-                        if (selectionKey.isAcceptable()) {
-                            registerConnection();
-                        } else {
-                            executorService.submit(() -> {
-                                try {
-                                    processingKey(selectionKey);
-                                } catch (IOException e) {
-                                    SERVER_LOGGER.info("ошибка обработки ключа " + e.getMessage());
-                                }
-                            });
-                        }
+            } catch (IOException e) {
+                SERVER_LOGGER.info("Ошибка настройки конфигурации " + e.getMessage());
+                throw new IOException(e);
+            }
+        }
+    }
+
+    /**
+     * Method configuration server socket and selector.
+     */
+    private void configureServerSocket(ServerSocketChannel serverSocket, Selector selector) throws IOException {
+        serverSocket.configureBlocking(false);
+        serverSocket.bind(new InetSocketAddress(this.serverHost, this.serverPort));
+        serverSocket.register(selector, SelectionKey.OP_ACCEPT);
+    }
+
+    /**
+     * Method that accepts keys from a selector
+     */
+    private void processConnection(Selector selector, ServerSocketChannel serverSocket) {
+        try (var executorService = Executors.newFixedThreadPool(MAX_CONNECTION)) {
+            while (true) {
+                try {
+                    int count = selector.select();
+                    if (count == 0) {
+                        continue;
                     }
 
+                    var keySet = selector.selectedKeys();
+                    var iterator = keySet.iterator();
+                    while (iterator.hasNext()) {
+                        var selectionKey = (SelectionKey) iterator.next();
+                        iterator.remove();
+
+                        checkKey(selectionKey, serverSocket, selector, executorService);
+                    }
+                } catch (IOException e) {
+                    SERVER_LOGGER.info("Ошибка обработке ключа " + e.getMessage());
                 }
-            } catch (IOException e) {
-                SERVER_LOGGER.info("Ошибка обработке ключа " + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Method that checks the state of the SelectionKey.
+     * The SelectionKey will either be accepted or sent for processing to respond to the user
+     */
+    private void checkKey(
+        SelectionKey selectionKey,
+        ServerSocketChannel serverSocket,
+        Selector selector,
+        ExecutorService executorService
+    )
+        throws IOException {
+        if (selectionKey.isValid()) {
+            if (selectionKey.isAcceptable()) {
+                registerConnection(serverSocket, selector);
+            } else {
+                executorService.submit(() -> {
+                    try {
+                        processingKey(selectionKey);
+                    } catch (IOException e) {
+                        SERVER_LOGGER.info("ошибка обработки ключа " + e.getMessage());
+                    }
+                });
             }
         }
     }
@@ -154,7 +181,7 @@ public final class QuoteServer {
     /**
      * Method registration key.
      */
-    private void registerConnection() throws IOException {
+    private void registerConnection(ServerSocketChannel serverSocket, Selector selector) throws IOException {
         try {
             var clientSocket = serverSocket.accept();
             clientSocket.configureBlocking(false);
@@ -212,14 +239,4 @@ public final class QuoteServer {
         }
         return DEFAULT_QUOTE;
     }
-
-    /**
-     * Method that stops the server operation.
-     */
-    public void closeServer() throws IOException {
-        this.serverSocket.close();
-        this.executorService.shutdown();
-        this.selector.close();
-    }
-
 }
