@@ -8,5 +8,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 public @interface Max {
-    int value() default Integer.MIN_VALUE;
+    int intValue() default Integer.MAX_VALUE;
+
+    double doubleValue() default Double.MAX_VALUE;
 }
