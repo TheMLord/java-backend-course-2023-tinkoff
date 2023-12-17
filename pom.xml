@@ -146,7 +146,7 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>edu/hw11/Task2Test.class</exclude>
+                        <exclude>**/edu/hw11/Task2Test.class</exclude>
                     </excludes>
                 </configuration>
             </plugin>
