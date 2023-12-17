@@ -1,14 +1,34 @@
 package edu.hw10.task2;
 
-public class Main {
-    public static void main(String[] args) {
-        FibCalculator c = new Fibonacci();
-        FibCalculator proxy = CacheProxy.create(c, c.getClass());
+import edu.hw10.task2.fibonacci.FibCalculator;
+import edu.hw10.task2.fibonacci.Fibonacci;
+import edu.hw10.task2.proxy.CacheProxy;
+import java.io.PrintWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-        System.out.println(proxy.fib(4));
-        System.out.println(proxy.fib(4));
-        System.out.println(proxy.fib(4));
-        System.out.println(proxy.fib(5));
-        System.out.println(proxy.fib(5));
+public class Main {
+    private static final Path PATH_TO_LOGGING = Path.of(
+        String.valueOf(Paths.get("").toAbsolutePath()), "src/main/java/edu/hw10/task2/logging.txt"
+    );
+
+    private Main() {
+
+    }
+
+    @SuppressWarnings("MagicNumber")
+    public static void main(String[] args) {
+        try (var pw = new PrintWriter(System.out)) {
+            FibCalculator c = new Fibonacci();
+            FibCalculator proxy = CacheProxy.create(c, PATH_TO_LOGGING);
+
+            pw.println(proxy.fib(45));
+            pw.println(proxy.fibString());
+            pw.println(proxy.fib(4));
+            pw.println(proxy.fib(4));
+            pw.println(proxy.fib(5));
+            pw.println(proxy.fibString());
+            pw.println(proxy.fib(5));
+        }
     }
 }

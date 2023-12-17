@@ -13,7 +13,7 @@ public class Human {
         this.name = name;
     }
 
-    public static Human createHuman(@NotNull @Max(intValue = 50) @Min(intValue = 20) Integer age, @NotNull String name) {
+    public static Human createHuman(@NotNull @Max(intValue = 50) @Min(intValue = 20) Integer age, String name) {
         return new Human(age, name);
     }
 

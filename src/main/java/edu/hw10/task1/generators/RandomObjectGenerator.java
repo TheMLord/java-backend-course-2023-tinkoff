@@ -12,12 +12,34 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Content generation class for POJO and Records representatives.
+ * <p>
+ * The findAnnotatedMethods() method performs reflection and finds methods in the current class
+ * or superclasses and returns methods that are capable of generating object fields to generate.
+ * The produceObjectParameters() method examines the parameters of a factory class or
+ * constructor and calls the corresponding generation method obtained from findAnnotatedMethods().
+ * <p>
+ * You cannot override findAnnotatedMethods() and produceObjectParameters()
+ * <p>
+ * It is possible to write new methods marked with the @ObjectGenerator annotation
+ * or redefine the methods of the parent. Thus, the capabilities of this class are expanded
+ */
 public class RandomObjectGenerator {
 
+    /**
+     * Class constructor.
+     */
     public RandomObjectGenerator() {
 
     }
 
+    /**
+     * Method of generating an object through the constructor.
+     *
+     * @param objectClass the class to create an instance of.
+     * @return an instance of the objectClass class with initialized fields specified in the constructor.
+     */
     public final Object nextObject(Class<?> objectClass)
         throws InvocationTargetException, IllegalAccessException, InstantiationException {
         var constructor = objectClass.getConstructors()[0];
@@ -28,6 +50,13 @@ public class RandomObjectGenerator {
         return constructor.newInstance(objectParameters);
     }
 
+    /**
+     * Method of generating an object through the factory method.
+     *
+     * @param objectClass the class to create an instance of.
+     * @param methodName  name of the factory method.
+     * @return an instance of the objectClass class with initialized fields specified in the factory method
+     */
     public final Object nextObject(Class<?> objectClass, String methodName)
         throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         var constructor = objectClass.getDeclaredConstructors()[0];
@@ -40,6 +69,11 @@ public class RandomObjectGenerator {
         return factoryMethod.invoke(objectClass, objectParameters);
     }
 
+    /**
+     * Method that returns generated arguments for a constructor or factory method
+     *
+     * @param parameters parameters of the constructor or factory method
+     */
     private Object[] produceObjectParameters(Parameter[] parameters)
         throws InvocationTargetException, IllegalAccessException {
         var annotatedMethods = findAnnotatedMethods();
@@ -56,6 +90,9 @@ public class RandomObjectGenerator {
         return randomParameterObjects;
     }
 
+    /**
+     * Method for reflecting oneself and superclasses to search for methods marked with an ObjectGenerator annotation.
+     */
     private Map<Class<?>, Method> findAnnotatedMethods() {
         Map<Class<?>, Method> methodMap = new HashMap<>();
 
@@ -120,6 +157,7 @@ public class RandomObjectGenerator {
         return (maybeNull) ? buildString() : null;
     }
 
+    @SuppressWarnings("MagicNumber")
     private String buildString() {
         String characters = "abcde123";
         StringBuilder randomString = new StringBuilder();
@@ -149,21 +187,5 @@ public class RandomObjectGenerator {
         }
 
         return (maybeNull) ? ThreadLocalRandom.current().nextDouble(minBorder, maxBorder) : null;
-    }
-
-    @ObjectGenerator
-    protected double generateRandomDoublePrimitive(Annotation[] annotations) {
-        double minBorder = Double.MIN_VALUE;
-        double maxBorder = Double.MAX_VALUE;
-
-        for (Annotation annotation : annotations) {
-            if (annotation instanceof Min) {
-                minBorder = ((Min) annotation).doubleValue();
-            } else if (annotation instanceof Max) {
-                maxBorder = ((Max) annotation).doubleValue();
-            }
-        }
-
-        return ThreadLocalRandom.current().nextDouble(minBorder, maxBorder);
     }
 }

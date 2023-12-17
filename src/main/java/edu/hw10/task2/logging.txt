@@ -1,0 +1,5 @@
+2023-12-17T16:06:16.866448843 | public abstract long edu.hw10.task2.fibonacci.FibCalculator.fib(int) | [45] | 1134903170 | false
+2023-12-17T16:06:16.874904856 | public abstract long edu.hw10.task2.fibonacci.FibCalculator.fib(int) | [4] | 3 | false
+2023-12-17T16:06:16.875209150 | public abstract long edu.hw10.task2.fibonacci.FibCalculator.fib(int) | [4] | 3 | true
+2023-12-17T16:06:16.875439851 | public abstract long edu.hw10.task2.fibonacci.FibCalculator.fib(int) | [5] | 5 | false
+2023-12-17T16:06:16.875822081 | public abstract long edu.hw10.task2.fibonacci.FibCalculator.fib(int) | [5] | 5 | true
