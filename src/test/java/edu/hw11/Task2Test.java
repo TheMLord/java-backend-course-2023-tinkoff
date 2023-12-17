@@ -10,7 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class Task2Test {
 
     @Test
-    @IgnoreForBinding
     @DisplayName(
         "Test that the proxy changes the behavior of Butt Buddy and returned the result corresponding to the delegated method")
     void testThatTheProxyChangesTheBehaviorOfButtBuddyAndReturnedTheResultCorrespondingToTheDelegatedMethod() {
