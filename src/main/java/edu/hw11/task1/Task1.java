@@ -14,6 +14,13 @@ public final class Task1 {
 
     }
 
+    /**
+     * Method for creating an instance of a new class with an overridden toString() method\
+     * <p>
+     * A new class is created through ByteBody, the toString method of which outputs "Hello, Bye Buddy!"
+     *
+     * @return an instance of a new class with an overridden toString() method that returns Hello, ByteBuddy!
+     */
     public static Object createLoadedBuddyClass()
         throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         try (var byteBuddyClass = new ByteBuddy()

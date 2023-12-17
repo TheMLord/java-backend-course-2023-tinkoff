@@ -3,7 +3,13 @@ package edu.hw11.task2;
 import edu.hw11.task2.utils.ArithmeticUtils;
 import java.io.PrintWriter;
 
-public class Main {
+public final class Main {
+
+    private Main() {
+
+    }
+
+    @SuppressWarnings("MagicNumber")
     public static void main(String[] args) {
         try (var ps = new PrintWriter(System.out)) {
             var au = new ArithmeticUtils();

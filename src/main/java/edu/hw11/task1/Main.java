@@ -3,7 +3,11 @@ package edu.hw11.task1;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 
-public class Main {
+public final class Main {
+    private Main() {
+
+    }
+
     public static void main(String[] args) throws InstantiationException, IllegalAccessException,
         NoSuchMethodException, InvocationTargetException {
 

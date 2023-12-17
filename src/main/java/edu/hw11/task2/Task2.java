@@ -13,6 +13,10 @@ public final class Task2 {
 
     }
 
+    /**
+     * Method that reloads a class ArithmeticUtils with the
+     * changed behavior of the method sum() to multi() from class OtherArithmeticUtils.
+     */
     public static void reloadArithmeticUtils() {
         ByteBuddyAgent.install();
         try (var reloadClass = new ByteBuddy()
